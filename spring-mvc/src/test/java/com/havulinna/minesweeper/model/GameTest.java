@@ -67,10 +67,9 @@ public class GameTest {
     }
 
     @Test
-    public void openingFlaggedSquareReturnsFalse() {
+    public void openingFlaggedSquareHasNoEffect() {
         Game game = createGame("F  ", "  M");
-        assertFalse(game.openSquare(0, 0));
-
+        game.openSquare(0, 0);
         verifyGameState(game, "F??", "???");
     }
 

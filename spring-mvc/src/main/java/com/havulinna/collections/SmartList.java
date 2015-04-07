@@ -17,8 +17,8 @@ import java.util.stream.Collectors;
  * 
  * Unlike most collections, SmartList does not accept null values.
  * 
- * The class contains the {@link #freeze()} method, which can be used to
- * make any list instance immutable on runtime.
+ * The class contains the {@link #freeze()} method, which can be used to make
+ * any list instance immutable on runtime.
  * 
  * This class is safe to extend.
  */
@@ -223,14 +223,14 @@ public class SmartList<T> implements List<T> {
     }
 
     /**
-     * Returns true if this list contains any elements that match the given predicate.
+     * @return true if this list contains any elements that match the given predicate.
      */
     public boolean containsAny(Predicate<? super T> predicate) {
         return find(predicate).isPresent();
     }
 
     /**
-     * Throws IllegalArgumentException if the given object is null.
+     * @throws IllegalArgumentException if the given object is null.
      */
     private void verifyNotNull(T e) {
         if (e == null) {
@@ -239,7 +239,7 @@ public class SmartList<T> implements List<T> {
     }
 
     /**
-     * Throws IllegalArgumentException if the given collection is null or contains null values.
+     * @throws IllegalArgumentException if the given collection is null or contains null values.
      */
     private void verifyNoNulls(Collection<? extends T> c) {
         if (c == null || c.contains(null)) {

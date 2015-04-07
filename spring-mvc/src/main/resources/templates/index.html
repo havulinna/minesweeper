@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Minesweeper</title>
+    </head>
+    <body>
+        <h1>Welcome!</h1>
+
+        <p>Choose a difficulty to start a new game!</p>
+        <form method="post" action="/new">
+            <div th:each="difficulty,status : ${ difficulties }">
+                <label>
+                    <input type="radio" name="difficulty" 
+                        th:value="${ difficulty }" th:checked="${ status.last }"/>
+                    <span th:text="${ difficulty }"></span>
+                </label>
+            </div>
+            <button type="submit">New game</button>
+        </form>
+    </body>
+</html>

@@ -5,16 +5,18 @@ import org.springframework.util.Assert;
 import com.havulinna.collections.SmartList;
 
 public class Game {
-    private enum Status { WON, LOST, ONGOING }
 
     private final Minefield minefield;
-    private Status status = Status.ONGOING;
     private int moves = 0;
 
     public Game(int rows, int cols, int mineCount) {
         this.minefield = new Minefield(rows, cols);
 
         setMinesRandomly(mineCount);
+    }
+
+    public Game(Difficulty difficulty) {
+        this(difficulty.height, difficulty.width, difficulty.mineCount);
     }
 
     /**
@@ -30,11 +32,12 @@ public class Game {
     }
 
     public boolean isWon() {
-        return status == Status.WON;
+        return gameIsCompleted();
     }
 
     public boolean isLost() {
-        return status == Status.LOST;
+        return minefield.getSquares().containsAny(
+                square -> square.isOpen() && square.isMine());
     }
 
     public boolean isOver() {
@@ -47,55 +50,50 @@ public class Game {
         square.toggleFlag();
     }
 
-    public void incrementMoves() {
-        moves++;
+    public int getMoves() {
+        return this.moves;
     }
 
-    public int getMoves() {
-        return moves;
+    private void incrementMoves() {
+        this.moves++;
     }
 
     /**
      * @see Game#openSquare(Square)
      */
-    public boolean openSquare(int row, int col) {
-        return openSquare(getMinefield().getSquare(row, col));
+    public void openSquare(int row, int col) {
+        openSquare(getMinefield().getSquare(row, col));
     }
 
     /**
-     * Attempts to open the given square. Returns false if the square is already
-     * open or if it is flagged. Opening a square that has no mines next to it
-     * leads to its neighbors being opened as well with a recursive call to
-     * openSquare.
+     * Attempts to open the given square. Opening a square that has no mines
+     * next to it leads to its neighbors being opened as well with a recursive
+     * call to openSquare.
      * 
      * @param square The Square object to open
-     * @return true if the square was opened
      */
-    public boolean openSquare(Square square) {
-        Assert.isTrue(!isOver());
-
-        if (square.isOpen() || square.isFlagged()) {
-            return false;
+    public void openSquare(Square square) {
+        if (isOver() || square.isFlagged()) {
+            return;
         }
+        incrementMoves();
+        openRecursively(square);
+    }
 
+    private void openRecursively(Square square) {
         square.setOpen();
 
-        if (square.isMine()) {
-            status = Status.LOST;
-        } else if (gameIsCompleted()) {
-            status = Status.WON;
-        } else {
-            // If there are no mines next to the opened square, the neighbors are also opened
-            SmartList<Square> neighbors = minefield.getNeighbors(square);
+        SmartList<Square> neighbors = minefield.getNeighbors(square);
 
-            if (!neighbors.containsAny(s -> s.isMine())) {
-                // Recursively open neighbors that are not already open or flagged
-                neighbors
-                    .select(s -> !s.isOpen() && !s.isFlagged())
-                    .forEach(s -> this.openSquare(s));
-            }
+        /*
+         * If there game is still on and there are no mines next to the opened
+         * square, the neighbors are also opened recursively.
+         */
+        if (!isOver() && !neighbors.containsAny(s -> s.isMine())) {
+            neighbors
+                .select(s -> !s.isOpen() && !s.isFlagged())
+                .forEach(s -> openRecursively(s));
         }
-        return true;
     }
 
     /**
@@ -103,10 +101,15 @@ public class Game {
      * @return true if the game is over
      */
     private boolean gameIsCompleted() {
-        return isOver() || !minefield.getSquares().containsAny(square -> !square.isOpen() && !square.isMine());
+        return !minefield.getSquares().containsAny(square -> !square.isOpen() && !square.isMine());
     }
 
-    protected Minefield getMinefield() {
+    public Minefield getMinefield() {
         return minefield;
+    }
+
+    @Override
+    public String toString() {
+        return "Moves " + getMoves() + "\n\n" + getMinefield().toString();
     }
 }

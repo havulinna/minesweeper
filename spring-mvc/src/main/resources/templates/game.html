@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Minesweeper</title>
+    </head>
+    <body>
+        <h1 th:text="${ gameView.statusText }"></h1>
+
+        <p>Moves made: <span th:text="${ gameView.moves }"></span></p>
+
+        <table>
+          <tr th:each="row : ${gameView.rows}">
+            <td th:each="squareView : ${row}" th:class="${ squareView.cssClass }">
+                <form method="post" action="">
+                    <input type="hidden" name="row" th:value="${ squareView.row }" />
+                    <input type="hidden" name="col" th:value="${ squareView.col }" />
+                    <button
+                        type="submit" 
+                        th:disabled="${ gameView.ended }"
+                        th:text="${ squareView.text }">
+                    </button>
+                </form>
+            </td>
+          </tr>
+        </table>
+
+        <p><a href="/">Start a new game</a>.</p>
+    </body>
+</html>
