@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>Unexpected error</title>
+        <title th:text="${ 'Error ' + errorCode }"></title>
     </head>
     <body>
-        <h1>Oops</h1>
+        <h1>Error <span th:text="${ errorCode }"></span></h1>
 
         <p>There was an error processing your request.</p>
     </body>

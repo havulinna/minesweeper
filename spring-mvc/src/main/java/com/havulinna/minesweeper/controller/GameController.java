@@ -9,13 +9,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import com.havulinna.minesweeper.model.Difficulty;
+import com.havulinna.minesweeper.controller.response.GameModelAndView;
+import com.havulinna.minesweeper.exception.NotFoundException;
 import com.havulinna.minesweeper.model.Game;
 import com.havulinna.minesweeper.service.GameRepository;
-import com.havulinna.minesweeper.view.GameView;
 
 @Controller
 public class GameController {
+
+    private static final String GAME_TEMPLATE = "game";
 
     private final GameRepository repository;
 
@@ -30,12 +32,9 @@ public class GameController {
         Game game = repository.getGameById(id);
 
         if (game != null) {
-            return new ModelAndView("game")
-                .addObject("gameView", new GameView(game))
-                .addObject("difficulties", Difficulty.values());
+            return new GameModelAndView(GAME_TEMPLATE, game);
         } else {
-            // TODO: Show an error page
-            throw new RuntimeException();
+            throw new NotFoundException();
         }
     }
 

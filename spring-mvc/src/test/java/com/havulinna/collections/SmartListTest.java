@@ -58,6 +58,11 @@ public class SmartListTest {
     }
 
     @Test
+    public void setMethodDoesNotAcceptNullValues() {
+        verifyIllegalArgumentException(() -> list.set(0, null));
+    }
+
+    @Test
     public void addAllMethodDoesNotAcceptCollectionsWithNullValues() {
         List<Integer> listWithNull = Arrays.asList(TWO, null);
 
@@ -118,10 +123,24 @@ public class SmartListTest {
 
     @Test
     public void findReturnsFirstMatchingElementsFromTheList() {
-        SmartList<String> strings = new SmartList<String>("1", "12", "123", "1234");
+        SmartList<String> strings = new SmartList<String>("1", "123", "XYZ");
 
         String found = strings.find(x -> x.length() > 2).get();
         assertEquals("123", found);
+    }
+
+    @Test
+    public void containsAnyFindsMatchingObject() {
+        SmartList<String> strings = new SmartList<String>("12", "1234");
+
+        assertTrue(strings.containsAny(x -> x.length() > 2));
+    }
+
+    @Test
+    public void containsAnyReturnsFalseWhenNoMatchingObjectsAreFound() {
+        SmartList<String> strings = new SmartList<String>("1", "12");
+
+        assertFalse(strings.containsAny(x -> x.length() > 10));
     }
 
     @Test
