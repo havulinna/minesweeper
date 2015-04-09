@@ -18,19 +18,25 @@ import com.havulinna.minesweeper.exception.NotFoundException;
 @ControllerAdvice
 public class ExceptionHandlingController implements ErrorController {
 
+    private static final String ERROR_PATH = "/error";
+    private static final String ERROR_TEMPLATE = "error";
+
+
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NotFoundException.class)
     public ModelAndView handleNotFoundException() {
         return new GameModelAndView("error404");
     }
 
-    @RequestMapping("/error")
+    @RequestMapping(ERROR_PATH)
     public ModelAndView handleGenericErrors(HttpServletResponse response) {
-        return new GameModelAndView("error").addObject("errorCode", response.getStatus());
+        Integer statusCode = Integer.valueOf(response.getStatus());
+
+        return new GameModelAndView(ERROR_TEMPLATE).addObject("errorCode", statusCode);
     }
 
     @Override
     public String getErrorPath() {
-        return "/error";
+        return ERROR_PATH;
     }
 }

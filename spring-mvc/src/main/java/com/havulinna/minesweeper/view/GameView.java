@@ -3,14 +3,12 @@ package com.havulinna.minesweeper.view;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.havulinna.collections.SmartList;
 import com.havulinna.minesweeper.model.Game;
 import com.havulinna.minesweeper.model.Square;
 
 
 public class GameView {
 
-    private final List<List<SquareView>> rows;
     private final boolean isWon;
     private final boolean isLost;
     private final int moves;
@@ -18,7 +16,6 @@ public class GameView {
 
     public GameView(Game game) {
         this.game = game;
-        this.rows = generateRows();
 
         this.isWon = game.isWon();
         this.isLost = game.isLost();
@@ -36,7 +33,7 @@ public class GameView {
     }
 
     public List<List<SquareView>> getRows() {
-        return rows;
+        return generateRows();
     }
 
     public boolean isWon() {
@@ -61,16 +58,18 @@ public class GameView {
      * for that row.
      */
     private List<List<SquareView>> generateRows() {
-        SmartList<Square> allSquares = game.getMinefield().getSquares();
 
-        final List<List<SquareView>> rowsList = new ArrayList<List<SquareView>>();
+        final List<List<SquareView>> rows = new ArrayList<List<SquareView>>();
 
         for (int i=0; i<game.getMinefield().getHeight(); i++) {
-            rowsList.add(i, new ArrayList<SquareView>());
+            rows.add(i, new ArrayList<SquareView>());
         }
 
-        allSquares.stream().forEach(s -> rowsList.get(s.getRow()).add(new SquareView(s)));
-        return rowsList;
+        // Add each square from the minefield to its corresponding list of squares
+        game.getMinefield().getSquares().stream().forEach(s -> {
+            rows.get(s.getRow()).add(new SquareView(s));
+        });
+        return rows;
     }
 
     public class SquareView {

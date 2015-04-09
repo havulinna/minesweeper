@@ -15,7 +15,7 @@ public class GameRepository {
     private Map<String, Game> storedGames = new HashMap<String, Game>();
 
     /**
-     * @return <code>true</code> if the repository contains a game with the
+     * @return <code>true</code> if this repository contains a game with the
      *         given id
      */
     public boolean containsGame(String id) {
@@ -49,5 +49,13 @@ public class GameRepository {
             throw new NotFoundException("No game found with id " + id);
         }
         return game;
+    }
+
+    /**
+     * @return the number of games in the repository. May contain duplicates, if
+     * the same {@link Game} object is stored multiple times.
+     */
+    public int getSize() {
+        return storedGames.size();
     }
 }
