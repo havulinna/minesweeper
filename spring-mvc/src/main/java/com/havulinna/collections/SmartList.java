@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
  */
 public class SmartList<T> implements List<T> {
 
-    private static final String NULL_ERROR_MESSAGE = "Null values not accepted in SmartList.";
+    private static final String NULL_ERROR_MESSAGE = "Null values are not accepted by SmartList objects.";
     private List<T> list = new ArrayList<T>();
 
     public SmartList() {
@@ -49,137 +49,12 @@ public class SmartList<T> implements List<T> {
         return this;
     }
 
-    @Override
-    public int size() {
-        return list.size();
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return list.isEmpty();
-    }
-
-    @Override
-    public boolean contains(Object o) {
-        return list.contains(o);
-    }
-
-    @Override
-    public Iterator<T> iterator() {
-        return list.iterator();
-    }
-
-    @Override
-    public Object[] toArray() {
-        return list.toArray();
-    }
-
-    @Override
-    public <T> T[] toArray(T[] a) {
-        return list.toArray(a);
-    }
-
-    @Override
-    public boolean add(T e) {
-        verifyNotNull(e);
-        return list.add(e);
-    }
-
-    @Override
-    public boolean remove(Object o) {
-        return list.remove(o);
-    }
-
-    @Override
-    public boolean containsAll(Collection<?> c) {
-        return list.containsAll(c);
-    }
-
-    @Override
-    public boolean addAll(Collection<? extends T> c) {
-        verifyNoNulls(c);
-        return list.addAll(c);
-    }
-
-    @Override
-    public boolean addAll(int index, Collection<? extends T> c) {
-        verifyNoNulls(c);
-        return list.addAll(index, c);
-    }
-
-    @Override
-    public boolean removeAll(Collection<?> c) {
-        return list.removeAll(c);
-    }
-
-    @Override
-    public boolean retainAll(Collection<?> c) {
-        return list.retainAll(c);
-    }
-
-    @Override
-    public void clear() {
-        list.clear();
-    }
-
-    @Override
-    public T get(int index) {
-        return list.get(index);
-    }
-
-    @Override
-    public T set(int index, T element) {
-        verifyNotNull(element);
-        return list.set(index, element);
-    }
-
-    @Override
-    public void add(int index, T element) {
-        verifyNotNull(element);
-        list.add(index, element);
-    }
-
-    @Override
-    public T remove(int index) {
-        return list.remove(index);
-    }
-
-    @Override
-    public int indexOf(Object o) {
-        return list.indexOf(o);
-    }
-
-    @Override
-    public int lastIndexOf(Object o) {
-        return list.lastIndexOf(o);
-    }
-
-    @Override
-    public ListIterator<T> listIterator() {
-        return list.listIterator();
-    }
-
-    @Override
-    public ListIterator<T> listIterator(int index) {
-        return list.listIterator(index);
-    }
-
     /**
      * Returns an unmodifiable view to this list.
      */
     @Override
     public List<T> subList(int fromIndex, int toIndex) {
         return Collections.unmodifiableList(list.subList(fromIndex, toIndex));
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        return list.equals(obj);
-    }
-
-    @Override
-    public int hashCode() {
-        return list.hashCode();
     }
 
     /**
@@ -230,6 +105,52 @@ public class SmartList<T> implements List<T> {
     }
 
     /**
+     * @throws IllegalArgumentException if the given element is null
+     */
+    @Override
+    public boolean add(T e) {
+        verifyNotNull(e);
+        return list.add(e);
+    }
+
+    /**
+     * @throws IllegalArgumentException if the given element is null
+     */
+    @Override
+    public void add(int index, T element) {
+        verifyNotNull(element);
+        list.add(index, element);
+    }
+
+    /**
+     * @throws IllegalArgumentException if the given element is null
+     */
+    @Override
+    public T set(int index, T element) {
+        verifyNotNull(element);
+        return list.set(index, element);
+    }
+
+
+    /**
+     * @throws IllegalArgumentException if the given collection contains any null values
+     */
+    @Override
+    public boolean addAll(Collection<? extends T> c) {
+        verifyNoNulls(c);
+        return list.addAll(c);
+    }
+
+    /**
+     * @throws IllegalArgumentException if the given collection contains any null values
+     */
+    @Override
+    public boolean addAll(int index, Collection<? extends T> c) {
+        verifyNoNulls(c);
+        return list.addAll(index, c);
+    }
+
+    /**
      * @throws IllegalArgumentException if the given object is null.
      */
     private void verifyNotNull(T e) {
@@ -245,5 +166,105 @@ public class SmartList<T> implements List<T> {
         if (c == null || c.contains(null)) {
             throw new IllegalArgumentException(NULL_ERROR_MESSAGE);
         }
+    }
+
+
+
+    /* Methods that are delegated to the backing List object */
+
+    @Override
+    public int size() {
+        return list.size();
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return list.isEmpty();
+    }
+
+    @Override
+    public boolean contains(Object o) {
+        return list.contains(o);
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return list.iterator();
+    }
+
+    @Override
+    public Object[] toArray() {
+        return list.toArray();
+    }
+
+    @Override
+    public <E> E[] toArray(E[] a) {
+        return list.toArray(a);
+    }
+
+    @Override
+    public boolean remove(Object o) {
+        return list.remove(o);
+    }
+
+    @Override
+    public boolean containsAll(Collection<?> c) {
+        return list.containsAll(c);
+    }
+
+    @Override
+    public boolean removeAll(Collection<?> c) {
+        return list.removeAll(c);
+    }
+
+    @Override
+    public boolean retainAll(Collection<?> c) {
+        return list.retainAll(c);
+    }
+
+    @Override
+    public void clear() {
+        list.clear();
+    }
+
+    @Override
+    public T get(int index) {
+        return list.get(index);
+    }
+
+
+    @Override
+    public T remove(int index) {
+        return list.remove(index);
+    }
+
+    @Override
+    public int indexOf(Object o) {
+        return list.indexOf(o);
+    }
+
+    @Override
+    public int lastIndexOf(Object o) {
+        return list.lastIndexOf(o);
+    }
+
+    @Override
+    public ListIterator<T> listIterator() {
+        return list.listIterator();
+    }
+
+    @Override
+    public ListIterator<T> listIterator(int index) {
+        return list.listIterator(index);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return list.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return list.hashCode();
     }
 }

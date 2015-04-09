@@ -100,8 +100,10 @@ public class GameTest {
                 case 'O':
                     square.setOpen();
                     break;
-                default:
+                case ' ':
                     break;
+                default:
+                    throw new IllegalArgumentException("Unsupported symbol: " + ch);
                 }
             }
         }

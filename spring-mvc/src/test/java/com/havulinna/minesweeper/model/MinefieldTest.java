@@ -28,17 +28,17 @@ public class MinefieldTest {
     }
 
     @Test
-    public void allSquaresAreInitiallyClosedAndWithoutMines() {
-        assertFalse(minefield_6x8.getSquares().containsAny(s -> s.isMine() || s.isOpen()));
-    }
-
-    @Test
     public void aSquareIsFoundForAllCombinationsOfCoordinates() {
         for (int row=0; row<6; row++) {
             for (int col=0; col<8; col++) {
                 verifySquareIsFoundWithCoordinates(row, col, minefield_6x8);
             }
         }
+    }
+
+    @Test
+    public void allSquaresAreInitiallyClosedAndWithoutMines() {
+        assertFalse(minefield_6x8.getSquares().containsAny(s -> s.isMine() || s.isOpen()));
     }
 
     @Test

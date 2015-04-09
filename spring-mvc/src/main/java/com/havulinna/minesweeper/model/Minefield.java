@@ -83,13 +83,13 @@ public class Minefield {
         return String.join("\n", output);
     }
 
-    private char getCharForSquare(Square current) {
-        if (current.isFlagged()) {
+    private char getCharForSquare(Square square) {
+        if (square.isFlagged()) {
             return 'F';
-        } if (current.isOpen() && current.isMine()) {
+        } if (square.isOpen() && square.isMine()) {
             return 'M';
-        } else if (current.isOpen()) {
-            int mineCount = getNeighbors(current).select(x -> x.isMine()).size();
+        } else if (square.isOpen()) {
+            int mineCount = getNeighbors(square).select(x -> x.isMine()).size();
             return String.valueOf(mineCount).charAt(0);
         } else {
             return '?';
