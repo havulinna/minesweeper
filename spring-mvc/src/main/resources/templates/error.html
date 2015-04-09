@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <title th:text="${ 'Error ' + errorCode }"></title>
+    <head th:replace="fragments/head :: head (title=${ 'Error ' + errorCode })">
     </head>
     <body>
         <h1>Error <span th:text="${ errorCode }"></span></h1>
 
-        <p>There was an error processing your request.</p>
-    </body>
+        <p>
+            There was an error processing your request. Please try again
+            again later or <a href="/">return to the front page</a>.
+        </p>
+</body>
 </html>

@@ -1,54 +1,8 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <title>Minesweeper</title>
-
-        <style type="text/css">
-        .game td {
-            border: outset silver 1px;
-            font-size: 10px;
-            height: 20px;
-            width: 20px;
-            background-color: #dddddd;
-        }
-
-        .game .open {
-            background-color: #eeeeee;
-            border: inset #eeeeee 1px;
-        }
-
-        .game button:enabled {
-            cursor: pointer;
-        }
-
-        .game button:disabled {
-            color: #333;
-        }
-
-        .game td button {
-            border: none;
-            background: none;
-            display: block;
-            height: 20px;
-            width: 20px;
-            line-height: 20px;
-            text-align: center;
-        }
-
-        .game .square.flagged {
-            background-color: #ffa500;
-        }
-
-        .game .square.mine.open {
-            background-color: red;
-            color: white;
-        }
-
-        .game .square.mine {
-            background-color: orange;
-        }
-        </style>
+    <head th:replace="fragments/head :: head (title='Minesweeper')">
     </head>
+
     <body>
         <h1 th:text="${ gameView.statusText }"></h1>
 
@@ -57,7 +11,7 @@
         <table class="game">
           <tr th:each="row : ${gameView.rows}">
             <td th:each="squareView : ${row}" th:class="${ 'square ' + squareView.cssClass }">
-                <form method="post" action="">
+                <form method="post">
                     <input type="hidden" name="row" th:value="${ squareView.row }" />
                     <input type="hidden" name="col" th:value="${ squareView.col }" />
                     <button
@@ -70,12 +24,7 @@
           </tr>
         </table>
 
-        <p>Start a new game:</p>
-        <form method="post" action="/new">
-            <input 
-                th:each="difficulty : ${ difficulties }"
-                type="submit" name="difficulty" 
-                th:value="${ difficulty }" style="text-transform: lowercase;" />
-        </form>
+        <div th:replace="fragments/game-menu">
+        </div>
     </body>
 </html>

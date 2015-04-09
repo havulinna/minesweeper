@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <title>Page not found</title>
+    <head th:replace="fragments/head :: head (title='Page not found')">
     </head>
     <body>
         <h1>Page not found</h1>
 
         <p>The requested page could not be found.</p>
+        <p><a href="/">Return to the front page</a>.</p>
     </body>
 </html>

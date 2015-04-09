@@ -1,0 +1,8 @@
+<div class="new-game-menu">
+    <p>Start a new game:</p>
+    <form method="post" action="/new">
+        <input th:each="difficulty : ${ difficulties }" type="submit"
+            name="difficulty" th:value="${ difficulty }"
+            style="text-transform: lowercase;" />
+    </form>
+</div>
