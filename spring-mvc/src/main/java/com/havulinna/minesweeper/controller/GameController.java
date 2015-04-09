@@ -11,6 +11,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.havulinna.minesweeper.controller.response.GameModelAndView;
 import com.havulinna.minesweeper.exception.NotFoundException;
+import com.havulinna.minesweeper.model.Difficulty;
 import com.havulinna.minesweeper.model.Game;
 import com.havulinna.minesweeper.service.GameRepository;
 
@@ -26,26 +27,53 @@ public class GameController {
         this.repository = repository;
     }
 
+    /**
+     * Creates a new {@link Game} with the given difficulty, stores the game,
+     * and redirects the user to that game.
+     * 
+     * @param difficulty
+     * @return redirect to the newly created game
+     */
+    @RequestMapping(value = "/new", method = RequestMethod.POST)
+    public RedirectView startNewGame(
+            @RequestParam("difficulty") Difficulty difficulty) {
 
-    @RequestMapping(value = "/game/{gameId}", method = RequestMethod.GET)
-    public ModelAndView showGame(@PathVariable("gameId") String id) {
-        Game game = repository.getGameById(id);
-
-        if (game != null) {
-            return new GameModelAndView(GAME_TEMPLATE, game);
-        } else {
-            throw new NotFoundException();
-        }
+        Game newGame = new Game(difficulty);
+        String gameId = repository.store(newGame);
+        return new RedirectView("/game/" + gameId);
     }
 
+    /**
+     * Renders the game matching given id. If the game is ongoing, the user will
+     * be able to play the game on this page.
+     * 
+     * @param id The unique ID of the user's game
+     * @return view containing the requested game
+     * @throws NotFoundException if the given ID matches no game
+     */
+    @RequestMapping(value = "/game/{gameId}", method = RequestMethod.GET)
+    public ModelAndView showGame(@PathVariable("gameId") String id) throws NotFoundException {
+        Game game = repository.getGameById(id);
+
+        return new GameModelAndView(GAME_TEMPLATE, game);
+    }
+
+    /**
+     * Handles a move on the game if the game is still ongoing and redirects the
+     * user back to the game view.
+     * 
+     * @throws NotFoundException If no game matching the id is found
+     */
     @RequestMapping(value = "/game/{gameId}", method = RequestMethod.POST)
     public RedirectView openSquare(
             @PathVariable("gameId") String id,
             @RequestParam("row") int row,
-            @RequestParam("col") int col) {
+            @RequestParam("col") int col) throws NotFoundException {
 
         Game game = repository.getGameById(id);
-        game.openSquare(row, col);
+        if (!game.isOver()) {
+            game.openSquare(row, col);
+        }
         return new RedirectView("/game/" + id);
     }
 }

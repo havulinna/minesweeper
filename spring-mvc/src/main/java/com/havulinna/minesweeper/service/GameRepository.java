@@ -6,12 +6,21 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import com.havulinna.minesweeper.exception.NotFoundException;
 import com.havulinna.minesweeper.model.Game;
 
 @Service
 public class GameRepository {
 
     private Map<String, Game> storedGames = new HashMap<String, Game>();
+
+    /**
+     * @return <code>true</code> if the repository contains a game with the
+     *         given id
+     */
+    public boolean containsGame(String id) {
+        return storedGames.containsKey(id);
+    }
 
     /**
      * Stores the given Game in memory. The game can later be requested
@@ -28,12 +37,17 @@ public class GameRepository {
 
     /**
      * Returns the game stored with the given id. If no matching game is found,
-     * null is returned.
+     * a new {@link NotFoundException} is thrown
      *
      * @param id the unique id received from {@link GameRepository#store(Game)}
-     * @return Game or null, if no game is found
+     * @return the game matching the id
+     * @throws NotFoundException when id does not match any game
      */
-    public Game getGameById(String id) {
-        return storedGames.get(id);
+    public Game getGameById(String id) throws NotFoundException {
+        Game game = storedGames.get(id);
+        if (game == null) {
+            throw new NotFoundException("No game found with id " + id);
+        }
+        return game;
     }
 }
