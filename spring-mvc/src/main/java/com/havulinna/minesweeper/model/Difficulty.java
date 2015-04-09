@@ -2,9 +2,9 @@ package com.havulinna.minesweeper.model;
 
 public enum Difficulty {
 
-    EASY(10, 10, 10),
-    NORMAL(15, 15, 30),
-    HARD(20, 20, 60);
+    EASY(10, 10, 6),
+    FAIR(15, 15, 30),
+    HARD(20, 20, 40);
 
     protected final int width;
     protected final int height;

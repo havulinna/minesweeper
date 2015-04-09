@@ -6,7 +6,6 @@ import java.util.List;
 import com.havulinna.collections.SmartList;
 import com.havulinna.minesweeper.model.Game;
 import com.havulinna.minesweeper.model.Square;
-import com.havulinna.minesweeper.view.GameView.SquareView;
 
 
 public class GameView {
@@ -76,6 +75,9 @@ public class GameView {
 
     public class SquareView {
 
+        private static final String EMPTY_SYMBOL = " ";
+        private static final String FLAG_SYMBOL = "?";
+        private static final String MINE_SYMBOL = "⁕";
         private Square square;
 
         public SquareView(Square square) {
@@ -90,24 +92,40 @@ public class GameView {
             return square.getCol();
         }
 
+        public boolean isDisabled() {
+            return square.isOpen() || game.isOver();
+        }
+
         public String getCssClass() {
-            if (square.isOpen()) {
-                return square.isMine() ? "mine" : "open";
-            } else {
-                return square.isFlagged() ? "flagged" : "closed";
+            List<String> classes = new ArrayList<String>();
+
+            classes.add(square.isOpen() ? "open" : "closed");
+
+            if (game.isOver() && square.isMine()) {
+                classes.add("mine");
             }
+
+            if (square.isFlagged()) {
+                classes.add("flagged");
+            }
+
+            return String.join(" ", classes);
         }
 
         public String getText() {
             if (game.isLost() && square.isMine()) {
-                return "M";
+                return MINE_SYMBOL;
             } else if (square.isFlagged()) {
-                return "F";
+                return FLAG_SYMBOL;
             } else if (square.isOpen()) {
                 int minesInNeighbors = game.getMinefield().getNeighbors(square).select(s -> s.isMine()).size();
-                return String.valueOf(minesInNeighbors);
+                if (minesInNeighbors > 0) {
+                    return String.valueOf(minesInNeighbors);
+                } else {
+                    return EMPTY_SYMBOL;
+                }
             } else {
-                return " ";
+                return EMPTY_SYMBOL;
             }
         }
     }

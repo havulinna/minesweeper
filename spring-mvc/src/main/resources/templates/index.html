@@ -4,18 +4,26 @@
         <title>Minesweeper</title>
     </head>
     <body>
-        <h1>Welcome!</h1>
+        <h1>Minesweeper demo application</h1>
+
+        <p>
+            This is a demo application written in Java using the Spring MVC framework. The
+            application is focused on demonstrating the design and implementation of a generic Java
+            application running on the back-end, and the user experience is therefore not as
+            good as it would be in a complete application.
+        </p>
+
 
         <p>Choose a difficulty to start a new game!</p>
         <form method="post" action="/new">
             <div th:each="difficulty,status : ${ difficulties }">
                 <label>
                     <input type="radio" name="difficulty" 
-                        th:value="${ difficulty }" th:checked="${ status.last }"/>
-                    <span th:text="${ difficulty }"></span>
+                        th:value="${ difficulty }" th:checked="${ status.last }" />
+                    <span th:text="${ difficulty }" style="text-transform: lowercase;"></span>
                 </label>
             </div>
-            <button type="submit">New game</button>
+            <button type="submit">Start new game</button>
         </form>
     </body>
 </html>

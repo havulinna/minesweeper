@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.havulinna.minesweeper.model.Difficulty;
 import com.havulinna.minesweeper.model.Game;
 import com.havulinna.minesweeper.service.GameRepository;
 import com.havulinna.minesweeper.view.GameView;
@@ -27,7 +28,15 @@ public class GameController {
     @RequestMapping(value = "/game/{gameId}", method = RequestMethod.GET)
     public ModelAndView showGame(@PathVariable("gameId") String id) {
         Game game = repository.getGameById(id);
-        return new ModelAndView("game").addObject("gameView", new GameView(game));
+
+        if (game != null) {
+            return new ModelAndView("game")
+                .addObject("gameView", new GameView(game))
+                .addObject("difficulties", Difficulty.values());
+        } else {
+            // TODO: Show an error page
+            throw new RuntimeException();
+        }
     }
 
     @RequestMapping(value = "/game/{gameId}", method = RequestMethod.POST)
