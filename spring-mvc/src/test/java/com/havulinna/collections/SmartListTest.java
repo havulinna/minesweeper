@@ -88,8 +88,8 @@ public class SmartListTest {
         verifyUnsupportedOperationException(() -> frozenList.add(TWO));
         verifyUnsupportedOperationException(() -> frozenList.addAll(Arrays.asList(TWO)));
     }
-    @Test
 
+    @Test
     public void elementsCannotBeRemovedFromFrozenList() {
         verifyUnsupportedOperationException(() -> frozenList.remove(0));
         verifyUnsupportedOperationException(() -> frozenList.remove(ZERO));

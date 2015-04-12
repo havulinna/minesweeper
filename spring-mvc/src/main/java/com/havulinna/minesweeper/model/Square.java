@@ -25,7 +25,7 @@ public class Square {
         return isOpen;
     }
 
-    protected void setOpen() {
+    public void setOpen() {
         this.isOpen = true;
     }
 
