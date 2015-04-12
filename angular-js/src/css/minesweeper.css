@@ -1,0 +1,49 @@
+.game .square {
+    border: outset silver 1px;
+    font-size: 10px;
+    height: 15px;
+    width: 15px;
+    background-color: #dddddd;
+    cursor: default;
+}
+
+.game .square.flagged {
+    background-color: #ffa500;
+}
+
+.game .square.open {
+    background-color: #eeeeee;
+    border: inset #eeeeee 1px;
+}
+
+.game .square > .neighbor-count {
+    display: none;
+}
+
+.game .square.open > .neighbor-count {
+    display: block;
+    width: 100%;
+    height: 100%;
+    line-height: 15px;
+    text-align: center;
+}
+
+.game .square.open.mine > .neighbor-count {
+    display: none;
+}
+
+.game.game-on .square {
+    cursor: pointer;
+}
+
+.game.game-on .square.open {
+    cursor: default;
+}
+
+.game.game-lost .square.mine {
+    background-color: darkred;
+}
+
+.game.game-lost .square.mine.open {
+    background-color: red;
+}
