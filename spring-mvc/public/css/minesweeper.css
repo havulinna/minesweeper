@@ -1,3 +1,22 @@
+.content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+body {
+    font-family: arial, helvetica, sans-serif;
+    font-size: 14px;
+}
+
+body.minesweeper.won {
+    background-color: #dff0d8;
+}
+
+body.minesweeper.lost {
+    background-color: #f2dede;
+}
+
 .game td {
     border: outset silver 1px;
     font-size: 10px;
@@ -40,4 +59,15 @@
 
 .game .square.mine {
     background-color: orange;
+}
+
+.new-game-menu input[type=submit] {
+    font-size: 16px;
+}
+
+footer {
+    padding-top: 20px;
+    margin-top: 20px;
+    border-top: solid silver 1px;
+    font-size: 12px;
 }

@@ -3,28 +3,33 @@
     <head th:replace="fragments/head :: head (title='Minesweeper')">
     </head>
 
-    <body>
-        <h1 th:text="${ gameView.statusText }"></h1>
+    <body th:class="${ 'minesweeper ' + gameView.cssClass }">
+        <div class="content">
+            <h1 th:text="${ gameView.statusText }"></h1>
 
-        <p>Moves made: <span th:text="${ gameView.moves }"></span></p>
+            <p>Moves made: <span th:text="${ gameView.moves }"></span></p>
 
-        <table class="game">
-          <tr th:each="row : ${gameView.rows}">
-            <td th:each="squareView : ${row}" th:class="${ 'square ' + squareView.cssClass }">
-                <form method="post">
-                    <input type="hidden" name="row" th:value="${ squareView.row }" />
-                    <input type="hidden" name="col" th:value="${ squareView.col }" />
-                    <button
-                        type="submit" 
-                        th:disabled="${ squareView.disabled }"
-                        th:text="${ squareView.text }">
-                    </button>
-                </form>
-            </td>
-          </tr>
-        </table>
+            <table class="game">
+              <tr th:each="row : ${gameView.rows}">
+                <td th:each="squareView : ${row}" th:class="${ 'square ' + squareView.cssClass }">
+                    <form method="post">
+                        <input type="hidden" name="row" th:value="${ squareView.row }" />
+                        <input type="hidden" name="col" th:value="${ squareView.col }" />
+                        <button
+                            type="submit" 
+                            th:disabled="${ squareView.disabled }"
+                            th:text="${ squareView.text }">
+                        </button>
+                    </form>
+                </td>
+              </tr>
+            </table>
 
-        <div th:replace="fragments/game-menu">
+            <div th:replace="fragments/game-menu">
+            </div>
+
+            <footer th:replace="fragments/footer">
+            </footer>
         </div>
     </body>
 </html>

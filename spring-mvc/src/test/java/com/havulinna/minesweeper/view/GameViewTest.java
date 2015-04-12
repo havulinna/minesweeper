@@ -20,17 +20,17 @@ public class GameViewTest {
 
     @Test
     public void gameOverMessageShownForLostGame() {
-        verifyStatusMessageForGame(GameView.GAME_LOST_MESSAGE, lostGame);
+        verifyStatusMessageForGame(GameView.State.LOST.message, lostGame);
     }
 
     @Test
     public void congratulationsMessageShownForWonGame() {
-        verifyStatusMessageForGame(GameView.GAME_WON_MESSAGE, wonGame);
+        verifyStatusMessageForGame(GameView.State.WON.message, wonGame);
     }
 
     @Test
     public void gameOnMessageShownWhenGameHasNotEnded() {
-        verifyStatusMessageForGame(GameView.GAME_ON_MESSAGE, ongoingGame);
+        verifyStatusMessageForGame(GameView.State.ON.message, ongoingGame);
     }
 
     @Test

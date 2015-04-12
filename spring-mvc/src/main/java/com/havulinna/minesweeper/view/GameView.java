@@ -8,9 +8,19 @@ import com.havulinna.minesweeper.model.Game;
 
 public class GameView {
 
-    protected static final String GAME_ON_MESSAGE = "Game is on!";
-    protected static final String GAME_WON_MESSAGE = "Game won!";
-    protected static final String GAME_LOST_MESSAGE = "Game lost :(";
+    public enum State {
+        ON("Game is on!", "ongoing"),
+        WON("Game won!", "won"),
+        LOST("Game lost :(", "lost");
+
+        public final String message;
+        public final String cssClass;
+
+        State(String message, String cssClass) {
+            this.message = message;
+            this.cssClass = cssClass;
+        }
+    }
 
     private final Game game;
 
@@ -18,13 +28,21 @@ public class GameView {
         this.game = game;
     }
 
+    public String getCssClass() {
+        return resolveState().cssClass;
+    }
+
     public String getStatusText() {
+        return resolveState().message;
+    }
+
+    private State resolveState() {
         if (game.isWon()) {
-            return GAME_WON_MESSAGE;
+            return State.WON;
         } else if (game.isLost()) {
-            return GAME_LOST_MESSAGE;
+            return State.LOST;
         } else {
-            return GAME_ON_MESSAGE;
+            return State.ON;
         }
     }
 

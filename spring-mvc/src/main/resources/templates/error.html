@@ -3,11 +3,16 @@
     <head th:replace="fragments/head :: head (title=${ 'Error ' + errorCode })">
     </head>
     <body>
-        <h1>Error <span th:text="${ errorCode }"></span></h1>
+        <div class="content">
+            <h1>Error <span th:text="${ errorCode }"></span></h1>
 
-        <p>
-            There was an error processing your request. Please try again
-            again later or <a href="/">return to the front page</a>.
-        </p>
-</body>
+            <p>
+                There was an error processing your request. Please try again
+                again later or <a href="/">return to the front page</a>.
+            </p>
+
+            <footer th:replace="fragments/footer">
+            </footer>
+        </div>
+    </body>
 </html>

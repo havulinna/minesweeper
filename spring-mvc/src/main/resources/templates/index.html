@@ -4,21 +4,30 @@
     </head>
 
     <body>
-        <h1>Minesweeper demo application</h1>
+        <div class="content">
+            <h1>Minesweeper demo application</h1>
 
-        <p>
-            This is a demo application written in Java using the Spring
-            MVC framework. The application is focused on demonstrating the
-            design and implementation of a generic Java application running
-            on the back-end.
-        </p>
-        <p>
-            As this is more of a technology demo than a polished
-            entertainment product, do not expect too much from the user
-            experience.
-        </p>
+            <p>
+                This is a demo application written in Java using the Spring
+                MVC framework. The application is focused on demonstrating the
+                design and implementation of a generic Java application running
+                on the back-end.
+            </p>
+            <p>
+                To examine the implementation of this application, visit its
+                <a href="https://github.com/havulinna/minesweeper">GitHub</a> page.
+            </p>
+            <p>
+                As this is more of a technology demo than a polished
+                entertainment product, do not expect too much from the user
+                experience.
+            </p>
 
-        <div th:replace="fragments/game-menu">
+            <div th:replace="fragments/game-menu">
+            </div>
+
+            <footer th:replace="fragments/footer">
+            </footer>
         </div>
     </body>
 </html>
