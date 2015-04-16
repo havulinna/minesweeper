@@ -7,12 +7,12 @@ import com.havulinna.collections.SmartList;
 public class Minefield {
 
     private final SmartList<Square> squares;
-    private final int rows;
-    private final int cols;
+    private final int height;
+    private final int width;
 
     public Minefield(int rows, int cols) {
-        this.rows = rows;
-        this.cols = cols;
+        this.height = rows;
+        this.width = cols;
         Assert.isTrue(rows > 0 && cols > 0);
 
         this.squares = createSquares(rows, cols);
@@ -31,9 +31,19 @@ public class Minefield {
 
     /**
      * Returns the Square object from the given zero-based coordinates.
+     * 
+     * @throws IllegalArgumentException
+     *             if the row and column parameters are not within the allowed
+     *             coordinates.
      */
     public Square getSquare(int row, int col) {
-        return this.squares.find(x -> x.getRow() == row && x.getCol() == col).get();
+        Assert.isTrue(validateCoordinates(row, col));
+
+        return this.squares.get(row * this.width + col);
+    }
+
+    private boolean validateCoordinates(int row, int col) {
+        return row >= 0 && col >= 0 && row < this.height && col < this.width;
     }
 
     /**
@@ -53,11 +63,11 @@ public class Minefield {
     }
 
     public int getWidth() {
-        return cols;
+        return width;
     }
 
     public int getHeight() {
-        return rows;
+        return height;
     }
 
     /**

@@ -69,12 +69,12 @@ public class MinefieldTest {
         verifyNumberOfNeighbors(minefield_6x8, minefield_6x8.getSquare(3, 7), 5);
     }
 
-    @Test(expected=Exception.class)
+    @Test(expected=IllegalArgumentException.class)
     public void gettingSquareWithIncorrectCoordinatesThrowsException() {
         minefield_6x8.getSquare(100, 100);
     }
 
-    @Test(expected=Exception.class)
+    @Test(expected=IllegalArgumentException.class)
     public void gettingSquareWithNegativeCoordinatesThrowsException() {
         minefield_6x8.getSquare(1, -1);
     }
